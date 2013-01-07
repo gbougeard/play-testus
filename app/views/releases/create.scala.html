@@ -1,0 +1,19 @@
+@(message: String, releaseForm: Form[Release], clubs: Seq[(String, String)])
+
+@import helper._
+@import tags._
+
+@scripts ={
+<script type="text/javascript" src=' @routes.Assets.at("js/app/controllers/release/WizStep1Controller.js") '></script>
+<script type="text/javascript" src=' @routes.Assets.at("js/app/controllers/release/WizStep2Controller.js") '></script>
+<script type="text/javascript" src=' @routes.Assets.at("js/app/controllers/release/WizStep3Controller.js") '></script>
+<script type="text/javascript" src=' @routes.Assets.at("js/app/controllers/release/WizStep4Controller.js") '></script>
+<script type="text/javascript" src=' @routes.Assets.at("js/app/services/localStorage.js") '></script>
+<script type="text/javascript" src=' @routes.Assets.at("js/app/services/releaseWiz.js") '></script>
+    }
+
+
+@main("", scripts) {
+
+    <div ng-view></div>
+}

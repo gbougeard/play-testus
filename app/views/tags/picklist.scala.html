@@ -1,0 +1,37 @@
+@(src: Seq[String], trg:Seq[String], id:Long)
+
+<div class="row" ng-controller="PicklistCtrl">
+    <button class="btn btn-small" type="button" ng-click="loadData(@id)">Load</button>
+    </p>
+    <div class="span4">
+        <select id="src" multiple=true ng-model="srcSelected" ng-options="c.name for c in src">
+          @*  @for(s <- src) {
+            <option>@s</option>
+            } *@
+        </select>
+    </div>
+    <div class="span1">
+        <p>
+            <button class="btn btn-small" type="button" ng-click="remove()"><i class="icon-arrow-left"></i></button>
+        </p>
+        <p>
+            <button class="btn btn-small" type="button" ng-click="add()"><i class="icon-arrow-right"></i></button>
+        </p>
+    </div>
+    <div class="span4">
+        <select id="trg" multiple=true ng-model="trgSelected"  ng-options="c.step.name for c in trg">
+            @for(s <- trg) {
+            <option>@s</option>
+            }
+        </select>
+    </div>
+    <div class="span1">
+        <p>
+            <button class="btn btn-small" type="button" ng-click="up()"><i class="icon-arrow-up"></i></button>
+        </p>
+        <p>
+            <button class="btn btn-small" type="button" ng-click="down()"><i class="icon-arrow-down"></i></button>
+        </p>
+    </div>
+
+</div>

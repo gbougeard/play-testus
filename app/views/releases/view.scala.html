@@ -1,0 +1,23 @@
+@(message: String, release: Release)(implicit flash: play.api.mvc.Flash)
+@import helper.twitterBootstrap._
+
+@main(message) {
+<div class="header">
+
+    <dl class="dl-horizontal">
+        <dt>Name</dt>
+        <dd>@release.name</dd>
+        <dt>Code</dt>
+        <dd>@release.description</dd>
+    </dl>
+
+</div>
+
+<div class="form-actions">
+    @**<input type="submit" value="Edit this release" class="btn btn-primary"> or**@
+    <a href="@routes.Releases.edit(release.id.getOrElse(0))" class="btn btn-primary">Edit</a>or
+    <a href="@routes.Releases.list()" class="btn">Cancel</a>
+    <a href="@routes.Releases.create()" class="btn">New</a>
+</div>
+
+}

@@ -1,0 +1,26 @@
+@(message: String, story: Story)(implicit flash: play.api.mvc.Flash)
+
+
+@main(message) {
+<div class="header">
+
+    <dl class="dl-horizontal">
+        @*
+        <dt>Id</dt>
+        <dd>@story.id</dd>
+        *@
+        <dt>Name</dt>
+        <dd>@story.name</dd>
+        <dt>Narrative</dt>
+        <dd>@Html(story.narrative)</dd>
+    </dl>
+</div>
+
+<div class="form-actions">
+    @**<input type="submit" value="Edit this story" class="btn btn-primary"> or**@
+    <a href="@routes.Stories.edit(story.id.getOrElse(0))" class="btn btn-primary">Edit</a>
+    <a href="@routes.Stories.list()" class="btn">Cancel</a>
+    <a href="@routes.Stories.create()" class="btn">New</a>
+</div>
+
+}

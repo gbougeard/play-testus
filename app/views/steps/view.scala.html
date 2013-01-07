@@ -1,0 +1,26 @@
+@(message: String, step: Step)(implicit flash: play.api.mvc.Flash)
+
+
+@main(message) {
+<div class="header">
+
+    <dl class="dl-horizontal">
+        @*
+        <dt>Id</dt>
+        <dd>@step.id</dd>
+        *@
+        <dt>Name</dt>
+        <dd>@step.name</dd>
+        <dt>Description</dt>
+        <dd>@Html(step.description)</dd>
+    </dl>
+</div>
+
+<div class="form-actions">
+    @**<input type="submit" value="Edit this step" class="btn btn-primary"> or**@
+    <a href="@routes.Steps.edit(step.id.getOrElse(0))" class="btn btn-primary">Edit</a>
+    <a href="@routes.Steps.list()" class="btn">Cancel</a>
+    <a href="@routes.Steps.create()" class="btn">New</a>
+</div>
+
+}

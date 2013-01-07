@@ -1,0 +1,70 @@
+@(message: String, id: Long, releaseForm: Form[Release], stories : Seq[(String, String)], steps:Seq[Step])(implicit flash: play.api.mvc.Flash)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@scripts = {
+<style>
+    #sortable1, #sortable2 {
+        list-style-type: none;
+        margin: 0;
+        padding: 0 0 2.5em;
+        float: left;
+        margin-right: 10px;
+    }
+
+    #sortable1 li, #sortable2 li {
+        margin: 0 5px 5px 5px;
+        padding: 5px;
+        font-size: 1.2em;
+        width: 120px;
+    }
+</style>
+<script>
+    $(function () {
+        $("#sortable1, #sortable2").sortable({
+            connectWith: ".connectedSortable"
+        }).disableSelection();
+    });
+</script>
+}
+
+@main(message, scripts) {
+
+@form(routes.Releases.update(id), 'class -> "form-horizontal") {
+
+@inputText(releaseForm("name"), '_label -> "Nom")
+@inputText(releaseForm("description"), '_label -> "Description")
+
+@select(
+releaseForm("storyId"),
+stories,
+'_label -> "Story", '_default -> "-- Choose a story --",
+'_showConstraints -> false
+)
+    <div class="container">
+<ul id="sortable1" class="connectedSortable accordion-heading">
+    <li class="ui-state-default"><span class="label label-info">Item 1</span></li>
+    <li class="ui-state-default">Item 2</li>
+    <li class="ui-state-default">Item 3</li>
+    <li class="ui-state-default">Item 4</li>
+    <li class="ui-state-default">Item 5</li>
+</ul>
+
+<ul id="sortable2" class="connectedSortable">
+    @steps.map { step =>
+    <li class="ui-state-highlight"><span class="label">@step.name</span></li>
+    }
+</ul>
+    </div>
+
+<div class="form-actions">
+    <input type="submit" value="Save this release" class="btn btn-primary"> or
+    <a href="@routes.Releases.view(id)" class="btn">View</a> or
+    <a href="@routes.Releases.list()" class="btn">Cancel</a>
+    <a href="@routes.Releases.create()" class="btn">New</a>
+</div>
+
+}
+}

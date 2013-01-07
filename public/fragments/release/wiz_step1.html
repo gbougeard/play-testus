@@ -1,0 +1,24 @@
+<form class="form-horizontal" name="formStep1">
+    <fieldset>
+        <div id="legend">
+            <legend class="">Release</legend>
+        </div>
+        <div class="control-group" ng-class="{error: formStep1.name.$invalid}">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" ng-model="release.name" required>
+            <span ng-show="formStep1.name.$error.required" class="help-inline"> Required</span>
+        </div>
+
+        <label for="desc">Description</label>
+        <textarea id="desc" ui-tinymce name="description" ng-model="release.description" style="width:100%"></textarea>
+
+        <br>
+
+        <div class="form-actions">
+            <a href="#/" class="btn btn-danger">Cancel</a>
+            <button class="btn btn-primary" ng-click="next()" ng-disabled="isClean() || formStep1.$invalid">Next
+            </button>
+            <button class="btn btn-danger" ng-click="resetData()">Reset</button>
+        </div>
+    </fieldset>
+</form>

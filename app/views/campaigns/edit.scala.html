@@ -1,0 +1,28 @@
+@(message: String, id: Long, campaignForm: Form[Campaign])(implicit flash: play.api.mvc.Flash)
+
+@import helper._
+@import tags.buttons._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@main(message) {
+
+@form(routes.Campaigns.update(id), 'class -> "form-horizontal") {
+
+@inputText(campaignForm("name"), '_label -> "Nom", '_class -> "input-large")
+@textarea(field = campaignForm("description"),  args='rows -> 5, 'cols -> 150, 'class->"input-xxlarge",'_label -> "Description")
+<script type="text/javascript" xmlns="http://www.w3.org/1999/html">
+    $('#description').wysihtml5({
+        "color": true //Button to change color of font
+    });
+</script>
+
+<div class="form-actions">
+    <input type="submit" value="Save" class="btn btn-success">
+    @btnCancel(routes.Campaigns.list())
+    @btnView(routes.Campaigns.view(id))
+    @btnNew(routes.Campaigns.create())
+</div>
+
+}
+}

@@ -1,0 +1,30 @@
+@(message: String, scenarioForm: Form[Scenario], clubs : Seq[(String, String)])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@main(message) {
+
+    @form(routes.Scenarios.save(), 'class -> "form-horizontal") {
+
+        @inputText(scenarioForm("id"), '_label -> "Id")
+        @inputText(scenarioForm("description"), '_label -> "Code FFF")
+        @inputText(scenarioForm("name"), '_label -> "Nom")
+
+        @select(
+        scenarioForm("clubId"),
+        clubs,
+        '_label -> "Story", '_default -> "-- Choose a club --",
+        '_showConstraints -> false
+        )
+
+
+
+        <div class="form-actions">
+            <input type="submit" value="Save this scenario" class="btn btn-primary"> or
+            <a href="@routes.Scenarios.list()" class="btn">Cancel</a>
+        </div>
+
+    }
+}

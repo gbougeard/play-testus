@@ -1,0 +1,21 @@
+<form class="form-horizontal" name="formStep4">
+    <fieldset>
+        <div id="legend">
+            <legend class="">Confirmation</legend>
+        </div>
+
+        <dl ng-repeat="campaign in campaigns">
+            {{campaign.name}}
+            {{campaign.story.name}}
+            {{campaign.browser}}
+            {{campaign.language}}
+        </dl>
+
+        <pre>{{campaigns | json}}</pre>
+
+        <div class="form-actions">
+            <a href="#/wiz3/" class="btn btn-inverse">Back</a>
+            <button class="btn btn-success" ng-click="submit()">Submit</button>
+        </div>
+    </fieldset>
+</form>

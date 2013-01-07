@@ -1,0 +1,106 @@
+@(message: String, currentPage: Page[(Campaign, Map[String, Int])], currentOrderBy: Int)(implicit flash: play.api.mvc.Flash)
+
+        @import tags._
+
+@****************************************
+* Helper generating navigation links    *
+****************************************@
+@link(newPage: Int, newOrderBy: Option[Int] = None) = @{
+routes.Campaigns.list(newPage
+, newOrderBy.map { orderBy =>
+if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
+}.getOrElse(currentOrderBy))
+}
+@**, currentFilter)
+**@
+
+@**********************************
+* Helper generating table headers *
+***********************************@
+@header(orderBy: Int, title: String) = {
+<th class="col@orderBy header @if(scala.math.abs(currentOrderBy) == orderBy) @{if(currentOrderBy < 0) "headerSortDown" else "headerSortUp"}">
+    <a href="@link(0, Some(orderBy))">@title</a>
+</th>
+}
+
+@main(message) {
+
+@Option(currentPage.items).filterNot(_.isEmpty).map { campaigns =>
+
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+    <tr>
+        @header(1,"Nom")
+        @header(2,"Browser")
+        @header(3,"Lang")
+        @header(98,"Result")
+        @header(99,"")
+    </tr>
+    </thead>
+    <tbody>
+
+    @campaigns.map {
+        case (campaign, result) =>  {
+        <tr>
+            <td style="width:50%"><a href="@routes.Campaigns.view(campaign.id.getOrElse(0))">@campaign.name</a></td>
+            <td style="width:10%">@browser(campaign.browser.toLowerCase)</td>
+            <td style="width:10%">@flag(campaign.lang.toLowerCase)</td>
+            <td><span class="pull-left">@result.get("OK")%</span><div class="progress" >
+                <div class="bar bar-success" style='width: @result.get("OK")%;'></div>
+                <div class="bar bar-danger" style='width: @result.get("KO")%;'></div>
+                <div class="bar bar-warning" style='width: @result.get("PENDING")%;'></div>
+            </div></td>
+            <td style="width:10%;">
+                <div class="btn-group">
+                    <a href="@routes.Campaigns.edit(campaign.id.getOrElse(0))" id="btnEdit_@campaign.id.getOrElse(0)"  class="btn ">
+                        <i class="icon-edit"></i>
+                    </a>
+                    <a href="@routes.Campaigns.view(campaign.id.getOrElse(0))" id="btnView_@campaign.id.getOrElse(0)"  class="btn btn-info">
+                        <i class="icon-file"></i>
+                    </a>
+                    <a href="@routes.Campaigns.run(campaign.id.getOrElse(0))" id="btnRun_@campaign.id.getOrElse(0)"  class="btn btn-success"  >
+                        <i class="icon-play"></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        }
+    }
+
+    </tbody>
+</table>
+
+<div id="pagination" class="pagination">
+    <ul>
+        @currentPage.prev.map { page =>
+        <li class="prev">
+            <a href="@link(page)">&larr; Previous</a>
+        </li>
+        }.getOrElse {
+        <li class="prev disabled">
+            <a>&larr; Previous</a>
+        </li>
+        }
+        <li class="current">
+            <a>Displaying @(currentPage.offset + 1) to @(currentPage.offset + campaigns.size) of @currentPage.total</a>
+        </li>
+        @currentPage.next.map { page =>
+        <li class="next">
+            <a href="@link(page)">Next &rarr;</a>
+        </li>
+        }.getOrElse {
+        <li class="next disabled">
+            <a>Next &rarr;</a>
+        </li>
+        }
+    </ul>
+</div>
+
+}.getOrElse {
+
+<div class="well">
+    <em>Nothing to display</em>
+</div>
+
+}
+}

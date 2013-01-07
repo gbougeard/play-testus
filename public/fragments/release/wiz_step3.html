@@ -1,0 +1,60 @@
+<form class="form-horizontal" name="formStep3">
+    <fieldset>
+        <div id="legend">
+            <legend class="">Parameters</legend>
+        </div>
+        <div class="control-group">
+            <!-- Password-->
+            <label class="control-label">Browser</label>
+
+            <div class="controls">
+                <label class="checkbox inline" ng-repeat="browser in browsers">
+                    <input type="checkbox"  value="{{browser}}" ng-model="selBrowsers[browser]"> {{browser}}
+                </label>
+            </div>
+        </div>
+        <div class="control-group">
+            <!-- Password-->
+            <label class="control-label">Language</label>
+
+            <div class="controls">
+                <label class="checkbox inline" ng-repeat="lang in langs">
+                    <input type="checkbox"  value="{{lang}}" ng-model="selLangs[lang]"> {{lang}}
+                </label>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <!-- Button -->
+            <div class="controls">
+                <button class="btn" ng-click="applyParameters()">Apply</button>
+            </div>
+        </div>
+        <pre>{{selBrowsers | json}}</pre>
+        <hr/>
+
+        <div class="control-group" ng-repeat="story in selection">
+            <label class="control-label">{{story.story.name}}</label>
+
+            <div class="controls">
+                <label class="checkbox inline" ng-repeat="browser in browsers">
+                    <input type="checkbox"  value="{{browser}}" ng-model="selection[story.story.id].browsers[browser]"> {{browser}}
+                </label>
+            </div>
+
+            <div class="controls">
+                <label class="checkbox inline" ng-repeat="lang in langs">
+                    <input type="checkbox"  value="{{lang}}" ng-model="selection[story.story.id].languages[lang]"> {{lang}}
+                </label>
+            </div>
+
+        </div>
+
+        <pre>{{selection | json}}</pre>
+
+        <div class="form-actions">
+            <a href="#/wiz2/" class="btn btn-inverse">Back</a>
+            <button class="btn btn-primary" ng-click="next()" ng-disabled="isClean() || formStep3.$invalid">Next</button>
+        </div>
+    </fieldset>
+</form>

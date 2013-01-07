@@ -1,0 +1,21 @@
+@(message: String, campaignForm: Form[Campaign])
+
+@import helper._
+@import tags.buttons._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@main(message) {
+
+    @form(routes.Campaigns.save(), 'class -> "form-horizontal") {
+
+        @inputText(campaignForm("name"), '_label -> "Nom")
+        @inputText(campaignForm("description"), '_label -> "Description")
+
+        <div class="form-actions">
+            <input type="submit" value="Save" class="btn btn-success">
+            @btnCancel(routes.Campaigns.list())
+        </div>
+
+    }
+}

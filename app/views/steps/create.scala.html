@@ -1,0 +1,20 @@
+@(message: String, stepForm: Form[Step])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@main(message) {
+
+    @form(routes.Steps.save(), 'class -> "form-horizontal") {
+
+        @inputText(stepForm("name"), '_label -> "Nom")
+        @inputText(stepForm("description"), '_label -> "Description")
+
+        <div class="form-actions">
+            <input type="submit" value="Save this step" class="btn btn-primary"> or
+            <a href="@routes.Steps.list()" class="btn">Cancel</a>
+        </div>
+
+    }
+}

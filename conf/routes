@@ -1,0 +1,75 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.home
+
+GET     /webjars/*file              controllers.WebJarAssets.at(file)
+GET     /fragments/*file            controllers.FragmentAssets.at(file)
+
+# Javascript routing
+GET /assets/javascripts/routes controllers.Application.javascriptRoutes
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
+
+# Stories
+GET     /stories/                      controllers.Stories.list(p:Int ?= 0,s:Int ?= 1)
+GET     /stories/:id/edit             controllers.Stories.edit(id : Long)
+POST    /stories/:id/edit             controllers.Stories.update(id : Long)
+GET     /stories/new                  controllers.Stories.create
+POST    /stories/new                  controllers.Stories.save
+GET     /stories/:id                  controllers.Stories.view(id : Long)
+GET     /stories.json                  controllers.Stories.findAll
+
+# Scenarios
+GET     /scenarios/                      controllers.Scenarios.list(p:Int ?= 0,s:Int ?= 1)
+GET     /scenarios/:id/edit             controllers.Scenarios.edit(id : Long)
+POST    /scenarios/:id/edit             controllers.Scenarios.update(id : Long)
+GET     /scenarios/new                  controllers.Scenarios.create
+POST    /scenarios/new                  controllers.Scenarios.save
+GET     /scenarios/:id                  controllers.Scenarios.view(id : Long)
+
+# Steps
+GET     /steps/                     controllers.Steps.list(p:Int ?= 0,s:Int ?= 1)
+GET     /steps.json                 controllers.Steps.json
+GET     /steps.json/src             controllers.Steps.jsonSrc(id:Long ?=0)
+GET     /steps.json/trg             controllers.Steps.jsonTrg(id:Long ?=0)
+GET     /steps/:id/edit             controllers.Steps.edit(id : Long)
+POST    /steps/:id/edit             controllers.Steps.update(id : Long)
+GET     /steps/new                  controllers.Steps.create
+POST    /steps/new                  controllers.Steps.save
+GET     /steps/:id                  controllers.Steps.view(id : Long)
+
+# Campaigns
+GET     /campaigns/                      controllers.Campaigns.list(p:Int ?= 0,s:Int ?= 1)
+GET     /campaigns/:id/edit             controllers.Campaigns.edit(id : Long)
+POST    /campaigns/:id/edit             controllers.Campaigns.update(id : Long)
+GET     /campaigns/new                  controllers.Campaigns.create
+POST    /campaigns/new                  controllers.Campaigns.save
+GET     /campaigns/:id                  controllers.Campaigns.view(id : Long)
+GET     /campaigns/run/:id                  controllers.Campaigns.run(id : Long)
+GET     /campaigns/:idC/scenario/:idS   controllers.Campaigns.stepsByCampaignScenario(idC : Long, idS : Long)
+
+# Comments
+#GET     /comments/                      controllers.Comments.list(p:Int ?= 0,s:Int ?= 1)
+#GET     /comments/:id/edit             controllers.Comments.edit(id : Long)
+#POST    /comments/:id/edit             controllers.Comments.update(id : Long)
+#GET     /comments/new                  controllers.Comments.create
+POST    /comments/new                  controllers.Comments.save
+GET     /comments/:id                  controllers.Comments.view(id : Long)
+
+# Releases
+GET     /releases/                      controllers.Releases.list(p:Int ?= 0,s:Int ?= 1)
+GET     /releases/:id/edit             controllers.Releases.edit(id : Long)
+POST    /releases/:id/edit             controllers.Releases.update(id : Long)
+GET     /releases/new/                  controllers.Releases.create
+POST    /releases/new                  controllers.Releases.save
+GET     /releases/:id                  controllers.Releases.view(id : Long)
+POST    /releases/campaigns.json       controllers.Releases.genCampaigns
+
+
+POST     /testStep/ok/                  controllers.Campaigns.stepSucceed
+POST     /testStep/ko/                  controllers.Campaigns.stepFailed
+

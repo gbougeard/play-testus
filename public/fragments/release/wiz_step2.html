@@ -1,0 +1,19 @@
+<form class="form-horizontal" name="formStep2">
+    <fieldset>
+        <div id="legend">
+            <legend class="">Stories</legend>
+        </div>
+
+        <label class="checkbox" ng-repeat="story in stories">
+            <input type="checkbox"  value="{{story}}" ng-model="selStories[story.id]"> {{story.name}}
+         </label>
+
+        <br>
+        <pre>{{selStories | json}}</pre>
+
+        <div class="form-actions">
+            <a href="#/wiz1/" class="btn btn-inverse">Back</a>
+            <button class="btn btn-primary" ng-click="next()" ng-disabled="isClean() || formStep2.$invalid">Next</button>
+        </div>
+    </fieldset>
+</form>

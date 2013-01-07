@@ -1,0 +1,52 @@
+@(message: String, id: Long, scenarioForm: Form[Scenario], stories : Seq[(String, String)], steps:Seq[Step])(implicit flash: play.api.mvc.Flash)
+
+@import helper._
+@import tags._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@scripts = {
+
+<script type="text/javascript" src='@routes.Assets.at("js/picklist.js")'></script>
+<script type="text/javascript" src='@routes.Assets.at("js/app/controllers/dnd.js")'></script>
+<script type="text/javascript" src='@routes.Assets.at("js/app/directives/dndBetweenList.js")'></script>
+}
+
+@main(message, scripts) {
+
+@form(routes.Scenarios.update(id), 'class -> "form-horizontal") {
+
+@inputText(field =scenarioForm("name"), args= '_class -> "input-xxlarge", '_label -> "Nom")
+@inputText(scenarioForm("description"), '_label -> "Description")
+
+@select(
+scenarioForm("storyId"),
+stories,
+'_label -> "Story", '_default -> "-- Choose a story --",
+'_showConstraints -> false
+)
+
+
+@picklist(List("A","B","C"), List("a","b"), id)
+ <div ng-controller="dndCtrl">
+    <div class="span4 offset2">
+    <ul id="sourceList"
+        dnd-between-list="source,targetList"
+        ng-class="{'minimalList':sourceEmpty()}">
+    <li class="alert alert-error nomargin"
+        ng-repeat="item in source">{{item.value}}</li>
+            </ul>
+        </div>
+<div class="span4">
+
+    <ul id="targetList"
+    dnd-between-list="model,sourceList"
+    ng-class="{'minimalList':sourceEmpty()}">
+        <li class="alert alert-info nomargin"
+        ng-repeat="item in model">{{item.value}}</li>
+    </ul>
+</div>
+</div>
+
+}
+}

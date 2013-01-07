@@ -1,0 +1,27 @@
+@(message: String, id: Long, stepForm: Form[Step])(implicit flash: play.api.mvc.Flash)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@main(message) {
+
+    @form(routes.Steps.update(id), 'class -> "form-horizontal") {
+
+        @inputText(stepForm("name"), '_label -> "Nom")
+        @textarea(field = stepForm("description"),  args='rows -> 5, 'cols -> 150, 'class->"input-xxlarge",'_label -> "Description")
+        <script type="text/javascript">
+            $('#description').wysihtml5({
+                "color": true //Button to change color of font
+            } );
+        </script>
+
+        <div class="form-actions">
+            <input type="submit" value="Save this step" class="btn btn-primary"> or
+            <a href="@routes.Steps.view(id)" class="btn">View</a> or
+            <a href="@routes.Steps.list()" class="btn">Cancel</a> or
+            <a href="@routes.Steps.create()" class="btn">New</a>
+        </div>
+
+    }
+}

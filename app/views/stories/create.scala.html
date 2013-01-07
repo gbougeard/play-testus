@@ -1,0 +1,20 @@
+@(message: String, storyForm: Form[Story])
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@main(message) {
+
+    @form(routes.Stories.save(), 'class -> "form-horizontal") {
+
+        @inputText(storyForm("name"), '_label -> "Nom")
+        @inputText(storyForm("narrative"), '_label -> "Narrative")
+
+        <div class="form-actions">
+            <input type="submit" value="Save this story" class="btn btn-primary"> or
+            <a href="@routes.Stories.list()" class="btn">Cancel</a>
+        </div>
+
+    }
+}
