@@ -108,10 +108,10 @@ object Comments extends Table[Comment]("comment") {
 
   //JSON
   implicit val commentReads: Reads[Comment] = (
-    (__ \ "id").readOpt[Long] ~
+    (__ \ "id").readNullable[Long] ~
       (__ \ "author").read[String] ~
       (__ \ "texte").read[String] ~
-      (__ \ "testStepId").read[Long]  ~
+      (__ \ "testStepId").read[Long] ~
       (__ \ "dtCreat").read[DateTime].orElse(Reads.pure(new DateTime()))
     )(Comment)
 
@@ -120,7 +120,7 @@ object Comments extends Table[Comment]("comment") {
     (__ \ "id").write[Option[Long]] ~
       (__ \ "author").write[String] ~
       (__ \ "texte").write[String] ~
-      (__ \ "testStepId").write[Long]~
+      (__ \ "testStepId").write[Long] ~
       (__ \ "dtCreat").write[DateTime]
     )(unlift(Comment.unapply))
 
