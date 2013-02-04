@@ -32,13 +32,14 @@ object ApplicationBuild extends Build {
 
     , "org.webjars" % "webjars-play" % "2.1-RC1"
     //    , "org.webjars" % "requirejs" % "2.1.1"
-    , "org.webjars" % "bootstrap" % "2.2.2"
+    , "org.webjars" % "bootstrap" % "2.2.2-1"
     //    , "org.webjars" % "bootstrap-datepicker" % "2.2.1"
     , "org.webjars" % "momentjs" % "1.7.2"
-    , "org.webjars" % "angularjs" % "1.0.2"
+    , "org.webjars" % "angularjs" % "1.1.2"
     , "org.webjars" % "angular-ui" % "0.3.2-1"
-    , "org.webjars" % "font-awesome" % "2.0.0"
-    , "org.webjars" % "jquery-ui" % "1.9.1"
+    , "org.webjars" % "angular-strap" % "0.6.3"
+    , "org.webjars" % "font-awesome" % "3.0.0"
+    , "org.webjars" % "jquery-ui" % "1.9.2"
     , "org.webjars" % "tinymce-jquery" % "3.4.9"
     , "org.webjars" % "famfamfam-flags" % "0.0"
 
@@ -47,6 +48,6 @@ object ApplicationBuild extends Build {
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
     // Add your own project settings here
-  )
+  ).dependsOn(RootProject( uri("git://github.com/gbougeard/play-slick.git") ))
 
 }
