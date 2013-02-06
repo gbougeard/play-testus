@@ -64,15 +64,20 @@ object Scenarios extends Table[Scenario]("scenario") {
     database.withSession {
       val scenarios = (
         for {t <- Scenarios
-          .sortBy(story => orderField match {
-          case 1 => story.description.asc
-          case -1 => story.description.desc
-          case 2 => story.name.asc
-          case -2 => story.name.desc
+          .sortBy(scenario => orderField match {
+          case 1 => scenario.description.asc
+          case -1 => scenario.description.desc
+          case 2 => scenario.name.asc
+          case -2 => scenario.name.desc
+
         })
           .drop(offset)
           .take(pageSize)
              c <- t.story
+        //               .sortBy(story => orderField match {
+        //               case 3 => story.name.asc
+        //               case -3 => story.name.desc
+        //             })
 
         } yield (t, c)).list
 
