@@ -1,5 +1,7 @@
 @(message: String, currentPage: Page[Step], currentOrderBy: Int)(implicit flash: play.api.mvc.Flash)
 
+@import helper._
+
 @****************************************
 * Helper generating navigation links    *
 ****************************************@
@@ -28,7 +30,6 @@ if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
 <table class="table table-striped table-bordered table-hover">
     <thead>
     <tr>
-      @*  @header(0,"Id")    *@
         @header(2,"Nom")
         @header(1,"Description")
     </tr>
@@ -37,9 +38,21 @@ if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
 
     @steps.map { step =>
     <tr>
-      @*  <td>@step.id</td>   *@
         <td><a href="@routes.Steps.view(step.id.getOrElse(0))">@step.name</a></td>
         <td>@Html(step.description)</td>
+        <td style="width:10%;">
+        @form(routes.Steps.delete(step.id.getOrElse(0))){
+            <div class="btn-group">
+                <a href="@routes.Steps.edit(step.id.getOrElse(0))" id="btnEdit_@step.id.getOrElse(0)"  class="btn ">
+                    <i class="icon-edit"></i>
+                </a>
+                <a href="@routes.Steps.view(step.id.getOrElse(0))" id="btnView_@step.id.getOrElse(0)"  class="btn btn-info">
+                    <i class="icon-file"></i>
+                </a>
+                <input type="submit" id="btnDel_@step.id.getOrElse(0)" class="btn btn-danger" value="Delete">
+            </div>
+        }
+        </td>
     </tr>
     }
 

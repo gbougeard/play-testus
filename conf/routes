@@ -41,6 +41,7 @@ POST    /steps/:id/edit             controllers.Steps.update(id : Long)
 GET     /steps/new                  controllers.Steps.create
 POST    /steps/new                  controllers.Steps.save
 GET     /steps/:id                  controllers.Steps.view(id : Long)
+POST    /steps/:id/delete                  controllers.Steps.delete(id : Long)
 
 # Campaigns
 GET     /campaigns/                      controllers.Campaigns.list(p:Int ?= 0,s:Int ?= 1)

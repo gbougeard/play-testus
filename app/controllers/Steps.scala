@@ -8,6 +8,7 @@ import play.api.libs.json.Json
 
 import models.Steps._
 import models.ScenarioSteps._
+import play.api.Logger
 
 
 object Steps extends Controller {
@@ -24,7 +25,7 @@ object Steps extends Controller {
     mapping(
       "id" -> optional(longNumber),
       "name" -> nonEmptyText ,
-  "description" -> nonEmptyText
+      "description" -> nonEmptyText
   //      "discontinued" -> optional(date("yyyy-MM-dd")),
       //      "company" -> optional(longNumber)
     )
@@ -76,9 +77,10 @@ object Steps extends Controller {
       stepForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.steps.edit("Edit Step - errors", id, formWithErrors)),
         step => {
-          models.Steps.update(step)
-          //        Home.flashing("success" -> "Step %s has been updated".format(step.name))
-          Redirect(routes.Steps.list(0,1))
+          Logger.info("Update step "+step)
+          models.Steps.update(id, step)
+          Redirect(routes.Steps.edit(id)).flashing("success" -> "Step %s has been updated".format(step.name))
+//          Redirect(routes.Steps.list(0,1))
         }
       )
   }
@@ -99,8 +101,8 @@ object Steps extends Controller {
         formWithErrors => BadRequest(views.html.steps.create("New Step - errors", formWithErrors)),
         step => {
           models.Steps.insert(step)
-          //        Home.flashing("success" -> "Step %s has been created".format(step.name))
-          Redirect(routes.Steps.list(0,1))
+          Redirect(routes.Steps.create()).flashing("success" -> "Step %s has been created".format(step.name))
+//          Redirect(routes.Steps.list(0,1))
         }
       )
   }
@@ -109,8 +111,10 @@ object Steps extends Controller {
    * Handle computer deletion.
    */
   def delete(id: Long) = Action {
+    Logger.info("delete step "+id)
     models.Steps.delete(id)
-    Home.flashing("success" -> "Step has been deleted")
+    Redirect(routes.Steps.list(0,1))
+//    Home.flashing("success" -> "Step has been deleted")
   }
 
   def jsonSrc(id: Long) = Action {
