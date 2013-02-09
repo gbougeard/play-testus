@@ -107,8 +107,9 @@ object Campaigns extends Table[Campaign]("campaign") {
     Campaigns.autoInc.insert((campaign))
   }
 
-  def update(campaign: Campaign) = database withSession {
-    Campaigns.where(_.id === campaign.id).update(campaign)
+  def update(id: Long,campaign: Campaign) = database withSession {
+    val campaign2update = campaign.copy(Some(id), campaign.name, campaign.description)
+    Campaigns.where(_.id === id).update(campaign2update)
   }
 
   def delete(campaignId: Long) = database withSession {

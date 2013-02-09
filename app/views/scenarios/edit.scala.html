@@ -14,6 +14,12 @@
 
 @main(message, scripts) {
 
+    @flash.get("success").map { message =>
+        <div class="alert alert-success">
+            <strong>Done!</strong> @message
+        </div>
+    }
+
 @form(routes.Scenarios.update(id), 'class -> "form-horizontal") {
 
 @inputText(field =scenarioForm("name"), args= '_class -> "input-xxlarge", '_label -> "Nom")

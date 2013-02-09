@@ -1,10 +1,16 @@
-@(message: String, stepForm: Form[Step])
+@(message: String, stepForm: Form[Step])(implicit flash: play.api.mvc.Flash)
 
 @import helper._
 
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
 
 @main(message) {
+
+    @flash.get("success").map { message =>
+        <div class="alert warning">
+            <strong>Done!</strong> @message
+        </div>
+    }
 
     @form(routes.Steps.save(), 'class -> "form-horizontal") {
 

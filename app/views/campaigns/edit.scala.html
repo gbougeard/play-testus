@@ -7,6 +7,12 @@
 
 @main(message) {
 
+    @flash.get("success").map { message =>
+        <div class="alert alert-success">
+            <strong>Done!</strong> @message
+        </div>
+    }
+
 @form(routes.Campaigns.update(id), 'class -> "form-horizontal") {
 
 @inputText(campaignForm("name"), '_label -> "Nom", '_class -> "input-large")

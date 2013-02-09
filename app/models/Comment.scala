@@ -98,8 +98,9 @@ object Comments extends Table[Comment]("comment") {
     Comments.autoInc.insert(c)
   }
 
-  def update(comment: Comment) = database withSession {
-    Comments.where(_.id === comment.id).update(comment)
+  def update(id:Long,comment: Comment) = database withSession {
+    val comment2update = comment.copy(Some(id), comment.author, comment.texte, comment.testStepId, comment.dtCreat)
+    Comments.where(_.id === id).update(comment2update)
   }
 
   def delete(commentId: Long) = database withSession {

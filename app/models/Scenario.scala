@@ -103,8 +103,9 @@ object Scenarios extends Table[Scenario]("scenario") {
     Scenarios.autoInc.insert((scenario))
   }
 
-  def update(scenario: Scenario) = database withSession {
-    Scenarios.where(_.id === scenario.id).update(scenario)
+  def update(id:Long,scenario: Scenario) = database withSession {
+    val scenario2update = scenario.copy(Some(id), scenario.name, scenario.description)
+    Scenarios.where(_.id === id).update(scenario2update)
   }
 
   def delete(scenarioId: Long) = database withSession {

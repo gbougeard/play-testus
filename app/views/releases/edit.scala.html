@@ -32,6 +32,12 @@
 
 @main(message, scripts) {
 
+    @flash.get("success").map { message =>
+        <div class="alert alert-success">
+            <strong>Done!</strong> @message
+        </div>
+    }
+
 @form(routes.Releases.update(id), 'class -> "form-horizontal") {
 
 @inputText(releaseForm("name"), '_label -> "Nom")

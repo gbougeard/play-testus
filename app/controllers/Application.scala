@@ -11,6 +11,7 @@ object Application extends Controller {
 
 
   def home = Action {
+    implicit request =>
     //    val stories = Tags.findAll
     Ok(html.index("Your new application is ready."))
   }

@@ -1,4 +1,4 @@
-@(message: String, campaignForm: Form[Campaign])
+@(message: String, campaignForm: Form[Campaign])(implicit flash: play.api.mvc.Flash)
 
 @import helper._
 @import tags.buttons._
@@ -6,6 +6,12 @@
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
 
 @main(message) {
+
+    @flash.get("success").map { message =>
+        <div class="alert alert-success">
+            <strong>Done!</strong> @message
+        </div>
+    }
 
     @form(routes.Campaigns.save(), 'class -> "form-horizontal") {
 

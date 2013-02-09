@@ -79,8 +79,9 @@ object Releases extends Table[Release]("releases") {
     Releases.autoInc.insert(release)
   }
 
-  def update(release: Release) = database withSession {
-    Releases.where(_.id === release.id).update(release)
+  def update(id:Long,release: Release) = database withSession {
+    val release2update = release.copy(Some(id), release.name, release.description)
+    Releases.where(_.id === id).update(release2update)
   }
 
   def delete(releaseId: Long) = database withSession {

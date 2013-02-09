@@ -25,6 +25,12 @@ if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
 
 @main(message) {
 
+    @flash.get("success").map { message =>
+        <div class="alert-message warning">
+            <strong>Done!</strong> @message
+        </div>
+    }
+
 @Option(currentPage.items).filterNot(_.isEmpty).map { campaigns =>
 
 <table class="table table-striped table-bordered table-hover">

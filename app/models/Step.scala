@@ -80,10 +80,8 @@ object Steps extends Table[Step]("step") {
   }
 
   def update(id: Long, step: Step) = database withSession {
-//    Logger.info("Update step " + step)
-    val step2Update = step.copy(Some(id), step.name, step.description)
-//    Logger.info("Update step2 " + step2Update)
-    Steps.where(_.id === id).update(step2Update)
+    val step2update = step.copy(Some(id), step.name, step.description)
+    Steps.where(_.id === id).update(step2update)
 
   }
 

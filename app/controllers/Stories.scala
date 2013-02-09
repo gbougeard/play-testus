@@ -74,9 +74,9 @@ object Stories extends Controller {
       storyForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.stories.edit("Edit Story - errors", id, formWithErrors)),
         story => {
-          models.Stories.update(story)
-          //        Home.flashing("success" -> "Story %s has been updated".format(story.name))
-          Redirect(routes.Stories.list(0,1))
+          models.Stories.update(id, story)
+          Redirect(routes.Stories.edit(id)).flashing("success" -> "Story %s has been updated".format(story.name))
+          //          Redirect(routes.Stories.list(0,1))
         }
       )
   }
@@ -85,7 +85,8 @@ object Stories extends Controller {
    * Display the 'new computer form'.
    */
   def create = Action {
-    Ok(views.html.stories.create("New Story", storyForm))
+    implicit request =>
+      Ok(views.html.stories.create("New Story", storyForm))
   }
 
   /**
@@ -98,7 +99,7 @@ object Stories extends Controller {
         story => {
           models.Stories.insert(story)
           //        Home.flashing("success" -> "Story %s has been created".format(story.name))
-          Redirect(routes.Stories.list(0,1))
+          Redirect(routes.Stories.list(0, 1))
         }
       )
   }
@@ -107,12 +108,14 @@ object Stories extends Controller {
    * Handle computer deletion.
    */
   def delete(id: Long) = Action {
-    models.Stories.delete(id)
-    Home.flashing("success" -> "Story has been deleted")
+    implicit request =>
+      models.Stories.delete(id)
+      Home.flashing("success" -> "Story has been deleted")
   }
 
-  def findAll() = Action{
-    Ok(Json.toJson(models.Stories.findAll))
+  def findAll() = Action {
+    implicit request =>
+      Ok(Json.toJson(models.Stories.findAll))
   }
 
 }

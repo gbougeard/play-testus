@@ -24,9 +24,9 @@ object Steps extends Controller {
   val stepForm = Form(
     mapping(
       "id" -> optional(longNumber),
-      "name" -> nonEmptyText ,
+      "name" -> nonEmptyText,
       "description" -> nonEmptyText
-  //      "discontinued" -> optional(date("yyyy-MM-dd")),
+      //      "discontinued" -> optional(date("yyyy-MM-dd")),
       //      "company" -> optional(longNumber)
     )
       (Step.apply)(Step.unapply)
@@ -77,10 +77,10 @@ object Steps extends Controller {
       stepForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.steps.edit("Edit Step - errors", id, formWithErrors)),
         step => {
-          Logger.info("Update step "+step)
+          Logger.info("Update step " + step)
           models.Steps.update(id, step)
           Redirect(routes.Steps.edit(id)).flashing("success" -> "Step %s has been updated".format(step.name))
-//          Redirect(routes.Steps.list(0,1))
+          //          Redirect(routes.Steps.list(0,1))
         }
       )
   }
@@ -89,7 +89,8 @@ object Steps extends Controller {
    * Display the 'new computer form'.
    */
   def create = Action {
-    Ok(views.html.steps.create("New Step", stepForm))
+    implicit request =>
+      Ok(views.html.steps.create("New Step", stepForm))
   }
 
   /**
@@ -102,7 +103,7 @@ object Steps extends Controller {
         step => {
           models.Steps.insert(step)
           Redirect(routes.Steps.create()).flashing("success" -> "Step %s has been created".format(step.name))
-//          Redirect(routes.Steps.list(0,1))
+          //          Redirect(routes.Steps.list(0,1))
         }
       )
   }
@@ -111,10 +112,11 @@ object Steps extends Controller {
    * Handle computer deletion.
    */
   def delete(id: Long) = Action {
-    Logger.info("delete step "+id)
-    models.Steps.delete(id)
-    Redirect(routes.Steps.list(0,1))
-//    Home.flashing("success" -> "Step has been deleted")
+    implicit request =>
+      Logger.info("delete step " + id)
+      models.Steps.delete(id)
+      Redirect(routes.Steps.list(0, 1))
+    //    Home.flashing("success" -> "Step has been deleted")
   }
 
   def jsonSrc(id: Long) = Action {
@@ -129,7 +131,7 @@ object Steps extends Controller {
       Ok(Json.toJson(steps))
   }
 
- def json = Action {
+  def json = Action {
     implicit request =>
       val steps = models.Steps.findAll
       Ok(Json.toJson(steps))

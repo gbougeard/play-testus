@@ -1,10 +1,16 @@
-@(message: String, scenarioForm: Form[Scenario], clubs : Seq[(String, String)])
+@(message: String, scenarioForm: Form[Scenario], clubs : Seq[(String, String)])(implicit flash: play.api.mvc.Flash)
 
 @import helper._
 
 @implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
 
 @main(message) {
+
+    @flash.get("success").map { message =>
+        <div class="alert alert-success">
+            <strong>Done!</strong> @message
+        </div>
+    }
 
     @form(routes.Scenarios.save(), 'class -> "form-horizontal") {
 

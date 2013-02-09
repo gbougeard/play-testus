@@ -10,7 +10,7 @@ import com.yammer.metrics.scala.Timer
 
 object Scenarios extends Controller {
 
-  val metric = Metrics.defaultRegistry().newTimer(classOf[Scenario], "Minute")
+  val metric = Metrics.defaultRegistry().newTimer(classOf[Scenario], "Page")
   val timer = new Timer(metric)
 
   /**
@@ -49,7 +49,7 @@ object Scenarios extends Controller {
 
   def list(page: Int, orderBy: Int) = Action {
     implicit request =>
-      val scenarios =  timer.time(models.Scenarios.findPage(page, orderBy))
+      val scenarios = timer.time(models.Scenarios.findPage(page, orderBy))
       val html = views.html.scenarios.list("Liste des scenarios", scenarios, orderBy)
       Ok(html)
   }
@@ -59,8 +59,8 @@ object Scenarios extends Controller {
 
       models.Scenarios.findById(id).map {
         scenario => {
-          val steps =  timer.time(models.ScenarioSteps.findByIdScenario(id))
-          val html =  views.html.scenarios.view("View Scenario", scenario, steps)
+          val steps = timer.time(models.ScenarioSteps.findByIdScenario(id))
+          val html = views.html.scenarios.view("View Scenario", scenario, steps)
           Ok(html)
         }
       } getOrElse (NotFound)
@@ -70,7 +70,7 @@ object Scenarios extends Controller {
     implicit request =>
       models.Scenarios.findById(id).map {
         scenario => {
-          val steps =  timer.time(models.Steps.findAll)
+          val steps = models.Steps.findAll
           val html = views.html.scenarios.edit("Edit Scenario", id, scenarioForm.fill(scenario), models.Stories.options, steps)
           Ok(html)
         }
@@ -82,31 +82,32 @@ object Scenarios extends Controller {
    *
    * @param id Id of the computer to edit
    */
-  def update(id: Long) = TODO
-  /*Action {
+  def update(id: Long) = Action {
     implicit request =>
+      val steps = models.Steps.findAll
       scenarioForm.bindFromRequest.fold(
-        formWithErrors => BadRequest(views.html.scenarios.edit("Edit Scenario - errors", id, formWithErrors, models.Players.options)),
+        formWithErrors => BadRequest(views.html.scenarios.edit("Edit Scenario - errors", id, formWithErrors, models.Stories.options, steps)),
         scenario => {
-          models.Scenarios.update(scenario)
-          //        Home.flashing("success" -> "Scenario %s has been updated".format(scenario.name))
-          Redirect(routes.Scenarios.view(scenario.id))
+          models.Scenarios.update(id, scenario)
+          Redirect(routes.Scenarios.edit(id)).flashing("success" -> "Scenario %s has been updated".format(scenario.name))
+          //          Redirect(routes.Scenarios.view(scenario.id))
         }
       )
-  }*/
+  }
 
   /**
    * Display the 'new computer form'.
    */
-  def create = TODO
-  /*Action {
-    Ok(views.html.scenarios.create("New Scenario", scenarioForm, models.Players.options))
-  }*/
+  def create = Action {
+    implicit request =>
+      Ok(views.html.scenarios.create("New Scenario", scenarioForm, models.Steps.options))
+  }
 
   /**
    * Handle the 'new computer form' submission.
    */
   def save = TODO
+
   /*Action {
     implicit request =>
       scenarioForm.bindFromRequest.fold(
@@ -123,8 +124,9 @@ object Scenarios extends Controller {
    * Handle computer deletion.
    */
   def delete(id: Long) = Action {
-    models.Scenarios.delete(id)
-    Home.flashing("success" -> "Scenario has been deleted")
+    implicit request =>
+      models.Scenarios.delete(id)
+      Home.flashing("success" -> "Scenario has been deleted")
   }
 
 }

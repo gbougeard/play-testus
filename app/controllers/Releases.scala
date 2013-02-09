@@ -13,7 +13,7 @@ import play.api.libs.json.Json
 
 object Releases extends Controller {
 
-  val metric = Metrics.defaultRegistry().newTimer(classOf[Release], "Minute")
+  val metric = Metrics.defaultRegistry().newTimer(classOf[Release], "Page")
   val timer = new Timer(metric)
 
   /**
@@ -71,7 +71,7 @@ object Releases extends Controller {
     implicit request =>
       models.Releases.findById(id).map {
         release => {
-          val steps = timer.time(models.Steps.findAll)
+          val steps = models.Steps.findAll
           val html = views.html.releases.edit("Edit Release", id, releaseForm.fill(release), models.Stories.options, steps)
           Ok(html)
         }
@@ -83,25 +83,25 @@ object Releases extends Controller {
    *
    * @param id Id of the computer to edit
    */
-  def update(id: Long) = TODO
-
-  /*Action {
+  def update(id: Long) = Action {
     implicit request =>
+      val steps = models.Steps.findAll
       releaseForm.bindFromRequest.fold(
-        formWithErrors => BadRequest(views.html.releases.edit("Edit Release - errors", id, formWithErrors, models.Players.options)),
+        formWithErrors => BadRequest(views.html.releases.edit("Edit Release - errors", id, formWithErrors, models.Stories.options, steps)),
         release => {
-          models.Releases.update(release)
-          //        Home.flashing("success" -> "Release %s has been updated".format(release.name))
-          Redirect(routes.Releases.view(release.id))
+          models.Releases.update(id, release)
+          Redirect(routes.Releases.edit(id)).flashing("success" -> "Release %s has been updated".format(release.name))
+          //          Redirect(routes.Releases.view(release.id))
         }
       )
-  }*/
+  }
 
   /**
    * Display the 'new computer form'.
    */
   def create = Action {
-    Ok(views.html.releases.create("New Release", releaseForm, models.Stories.options))
+    implicit request =>
+      Ok(views.html.releases.create("New Release", releaseForm, models.Stories.options))
   }
 
   /**
@@ -110,7 +110,7 @@ object Releases extends Controller {
   def save = Action(parse.json) {
     implicit request =>
       val json = request.body
-      println(json)
+      //      println(json)
       val release = json.as[Release]
       val id = models.Releases.insert(release)
       Ok(Json.toJson(id))
@@ -121,14 +121,15 @@ object Releases extends Controller {
    * Handle computer deletion.
    */
   def delete(id: Long) = Action {
-    models.Releases.delete(id)
-    Home.flashing("success" -> "Release has been deleted")
+    implicit request =>
+      models.Releases.delete(id)
+      Home.flashing("success" -> "Release has been deleted")
   }
 
   def genCampaigns() = Action(parse.json) {
     implicit request =>
       val json = request.body
-      println(json);
+      //      println(json);
       val campaigns = json.as[Seq[Campaign]]
       campaigns.map(models.Campaigns.insert)
       Ok //(Json.toJson(campaigns))

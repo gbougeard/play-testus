@@ -83,8 +83,9 @@ object Stories extends Table[Story]("story") {
     Stories.autoInc.insert((story))
   }
 
-  def update(story: Story) = database withSession {
-    Stories.where(_.id === story.id).update(story)
+  def update(id:Long,story: Story) = database withSession {
+    val story2update = story.copy(Some(id), story.name, story.narrative)
+    Stories.where(_.id === id).update(story2update)
   }
 
   def delete(storyId: Long) = database withSession {

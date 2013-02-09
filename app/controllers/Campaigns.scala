@@ -21,13 +21,13 @@ object Campaigns extends Controller {
   val campaignForm = Form(
     mapping(
       "id" -> optional(longNumber),
-      "name" -> nonEmptyText ,
+      "name" -> nonEmptyText,
       "description" -> optional(text),
-      "browser" -> text ,
+      "browser" -> text,
       "lang" -> text,
       "storyId" -> longNumber,
       "releaseId" -> optional(longNumber)
-  //      "discontinued" -> optional(date("yyyy-MM-dd")),
+      //      "discontinued" -> optional(date("yyyy-MM-dd")),
       //      "company" -> optional(longNumber)
     )
       (Campaign.apply)(Campaign.unapply)
@@ -59,7 +59,7 @@ object Campaigns extends Controller {
       models.Campaigns.findById(id).map {
         campaign => {
           val scenarios = models.TestSteps.findScenariosByCampaign(id)
-          val results =  models.Campaigns.campaignResults(campaign)
+          val results = models.Campaigns.campaignResults(campaign)
           val html = views.html.campaigns.run("Run Campaign", campaign, results, scenarios)
           Ok(html)
         }
@@ -71,7 +71,7 @@ object Campaigns extends Controller {
       models.Campaigns.findById(id).map {
         campaign => {
           val scenarios = models.TestSteps.findScenariosByCampaign(id)
-          val results =  models.Campaigns.campaignResults(campaign)
+          val results = models.Campaigns.campaignResults(campaign)
           val html = views.html.campaigns.view("View Campaign", campaign, results, scenarios)
           Ok(html)
         }
@@ -95,9 +95,9 @@ object Campaigns extends Controller {
       campaignForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.campaigns.edit("Edit Campaign - errors", id, formWithErrors)),
         campaign => {
-          models.Campaigns.update(campaign)
-          //        Home.flashing("success" -> "Campaign %s has been updated".format(campaign.name))
-          Redirect(routes.Campaigns.list(0,1))
+          models.Campaigns.update(id, campaign)
+          Redirect(routes.Campaigns.edit(id)).flashing("success" -> "Campaign %s has been updated".format(campaign.name))
+          //          Redirect(routes.Campaigns.list(0,1))
         }
       )
   }
@@ -106,7 +106,8 @@ object Campaigns extends Controller {
    * Display the 'new computer form'.
    */
   def create = Action {
-    Ok(views.html.campaigns.create("New Campaign", campaignForm))
+    implicit request =>
+      Ok(views.html.campaigns.create("New Campaign", campaignForm))
   }
 
   /**
@@ -118,8 +119,8 @@ object Campaigns extends Controller {
         formWithErrors => BadRequest(views.html.campaigns.create("New Campaign - errors", formWithErrors)),
         campaign => {
           models.Campaigns.insert(campaign)
-          //        Home.flashing("success" -> "Campaign %s has been created".format(campaign.name))
-          Redirect(routes.Campaigns.list(0,1))
+          Redirect(routes.Campaigns.create()).flashing("success" -> "Campaign %s has been created".format(campaign.name))
+          //          Redirect(routes.Campaigns.list(0,1))
         }
       )
   }
@@ -128,13 +129,14 @@ object Campaigns extends Controller {
    * Handle computer deletion.
    */
   def delete(id: Long) = Action {
-    models.Campaigns.delete(id)
-    Home.flashing("success" -> "Campaign has been deleted")
+    implicit request =>
+      models.Campaigns.delete(id)
+      Home.flashing("success" -> "Campaign has been deleted")
   }
 
-  def stepsByCampaignScenario(idC: Long,idS: Long) = Action {
+  def stepsByCampaignScenario(idC: Long, idS: Long) = Action {
     implicit request =>
-      val steps = models.TestSteps.findByCampaignScenario(idC,idS)
+      val steps = models.TestSteps.findByCampaignScenario(idC, idS)
       Ok(Json.toJson(steps))
   }
 
@@ -148,14 +150,14 @@ object Campaigns extends Controller {
         Ok("Saved")
       }
       catch {
-        case e:IllegalArgumentException =>
+        case e: IllegalArgumentException =>
           BadRequest("testStep not found")
       }
   }
 
   def stepFailed() = Action(parse.json) {
     implicit request =>
-      println(request.body)
+//      println(request.body)
       val testStepJson = request.body
       val testStep = testStepJson.as[TestStep]
       try {
@@ -163,7 +165,7 @@ object Campaigns extends Controller {
         Ok("Saved")
       }
       catch {
-        case e:IllegalArgumentException =>
+        case e: IllegalArgumentException =>
           BadRequest("testStep not found")
       }
   }
