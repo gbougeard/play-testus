@@ -32,7 +32,7 @@ object ApplicationBuild extends Build {
 
     , "org.webjars" % "webjars-play" % "2.1-RC1"
     //    , "org.webjars" % "requirejs" % "2.1.1"
-    , "org.webjars" % "bootstrap" % "2.2.2-1"
+    , "org.webjars" % "bootstrap" % "2.3.0"
     //    , "org.webjars" % "bootstrap-datepicker" % "2.2.1"
     , "org.webjars" % "momentjs" % "1.7.2"
     , "org.webjars" % "angularjs" % "1.1.2"

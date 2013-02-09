@@ -7,11 +7,11 @@
         <title>@title</title>
         <link rel="shortcut icon" type="image/png" href='@routes.Assets.at("img/favicon.png")'>
 
-        <link rel="stylesheet" media="screen" href='@routes.Assets.at("css/bootstrap-wysihtml5-0.0.2.css")'>
-        <link rel='stylesheet' href='@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap/2.2.2/css/bootstrap.min.css"))'>
+        <link rel="stylesheet" media="screen" href='@routes.Assets.at("css/bootstrap-wysihtml5.css")'>
+        <link rel='stylesheet' href='@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap/2.3.0/css/bootstrap.min.css"))'>
 
         <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery.js"))'></script>
-        <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap/2.2.2/js/bootstrap.min.js"))'></script>
+        <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("bootstrap/2.3.0/js/bootstrap.min.js"))'></script>
         <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("moment.min.js"))'></script>
         <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("jquery-ui/1.9.2/js/jquery-ui-1.9.2.custom.min.js"))'></script>
         <script type='text/javascript' src='@routes.WebJarAssets.at(WebJarAssets.locate("tiny_mce/tiny_mce.js"))'></script>
@@ -31,8 +31,8 @@
         <script type="text/javascript" src='@routes.Assets.at("js/app/filters/moment.js")'></script>
         <script type="text/javascript" src='@routes.Assets.at("js/app/filters/steps.js")'></script>
 
-        <script type="text/javascript" src='@routes.Assets.at("js/libs/wysihtml5-0.3.0_rc2.min.js")'></script>
-        <script type="text/javascript" src='@routes.Assets.at("js/libs/bootstrap-wysihtml5-0.0.2.min.js")'></script>
+        <script type="text/javascript" src='@routes.Assets.at("js/libs/wysihtml5-0.3.0.js")'></script>
+        <script type="text/javascript" src='@routes.Assets.at("js/libs/bootstrap-wysihtml5.js")'></script>
 
         @scripts
     </head>
@@ -59,8 +59,8 @@
                     <div class="span8">
                     <!--Body content-->
                         <fieldset>
-                        <legend>@title</legend>
-                        @content
+                            <legend>@title</legend>
+                            @content
                         <fieldset>
                     </div>
                 </div>
