@@ -60,8 +60,9 @@ object TestSteps extends Table[TestStep]("test_step") {
     TestSteps.autoInc.insert((testStep))
   }
 
-  def update(testStep: TestStep) = database withSession {
-    TestSteps.where(_.id === testStep.id).update(testStep)
+  def update(id:Long, testStep: TestStep) = database withSession {
+    val testStep2update = testStep.copy(Some(id))
+    TestSteps.where(_.id === id).update(testStep2update)
   }
 
   def delete(testStepId: Long) = database withSession {

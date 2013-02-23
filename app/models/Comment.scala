@@ -99,7 +99,7 @@ object Comments extends Table[Comment]("comment") {
   }
 
   def update(id:Long,comment: Comment) = database withSession {
-    val comment2update = comment.copy(Some(id), comment.author, comment.texte, comment.testStepId, comment.dtCreat)
+    val comment2update = comment.copy(Some(id))
     Comments.where(_.id === id).update(comment2update)
   }
 

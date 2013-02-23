@@ -146,7 +146,7 @@ object Campaigns extends Controller {
       val testStepJson = request.body
       val testStep = testStepJson.as[TestStep]
       try {
-        models.TestSteps.update(testStep)
+        models.TestSteps.update(testStep.id.getOrElse(0), testStep)
         Ok("Saved")
       }
       catch {
@@ -161,7 +161,7 @@ object Campaigns extends Controller {
       val testStepJson = request.body
       val testStep = testStepJson.as[TestStep]
       try {
-        models.TestSteps.update(testStep)
+        models.TestSteps.update(testStep.id.getOrElse(0), testStep)
         Ok("Saved")
       }
       catch {

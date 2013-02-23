@@ -11,7 +11,6 @@ import play.api.libs.json._
 import play.api.libs.functional.syntax._
 
 // Use the implicit threadLocalSession
-
 import scala.slick.session.Database.threadLocalSession
 
 case class Scenario(id: Option[Long], name: String, description: Option[String], storyId: Long) {
@@ -104,7 +103,7 @@ object Scenarios extends Table[Scenario]("scenario") {
   }
 
   def update(id:Long,scenario: Scenario) = database withSession {
-    val scenario2update = scenario.copy(Some(id), scenario.name, scenario.description)
+    val scenario2update = scenario.copy(Some(id))
     Scenarios.where(_.id === id).update(scenario2update)
   }
 

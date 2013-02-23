@@ -80,7 +80,7 @@ object Releases extends Table[Release]("releases") {
   }
 
   def update(id:Long,release: Release) = database withSession {
-    val release2update = release.copy(Some(id), release.name, release.description)
+    val release2update = release.copy(Some(id))
     Releases.where(_.id === id).update(release2update)
   }
 

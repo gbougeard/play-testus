@@ -108,7 +108,7 @@ object Campaigns extends Table[Campaign]("campaign") {
   }
 
   def update(id: Long,campaign: Campaign) = database withSession {
-    val campaign2update = campaign.copy(Some(id), campaign.name, campaign.description)
+    val campaign2update = campaign.copy(Some(id))
     Campaigns.where(_.id === id).update(campaign2update)
   }
 

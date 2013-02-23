@@ -84,7 +84,7 @@ object Stories extends Table[Story]("story") {
   }
 
   def update(id:Long,story: Story) = database withSession {
-    val story2update = story.copy(Some(id), story.name, story.narrative)
+    val story2update = story.copy(Some(id))
     Stories.where(_.id === id).update(story2update)
   }
 
