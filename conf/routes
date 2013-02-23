@@ -3,7 +3,9 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.home
+GET     /                           controllers.Application.index
+GET     /only-twitter               controllers.Application.onlyTwitter
+GET     /only-github               controllers.Application.onlyGithub
 
 GET     /webjars/*file              controllers.WebJarAssets.at(file)
 GET     /fragments/*file            controllers.FragmentAssets.at(file)
@@ -74,3 +76,25 @@ POST    /releases/campaigns.json       controllers.Releases.genCampaigns
 POST     /testStep/ok/                  controllers.Campaigns.stepSucceed
 POST     /testStep/ko/                  controllers.Campaigns.stepFailed
 
+# SecureSocial
+# Login page
+GET     /login                      securesocial.controllers.LoginPage.login
+GET     /logout                     securesocial.controllers.LoginPage.logout
+
+# User Registration and password handling (only needed if you are using UsernamePasswordProvider)
+GET     /signup                     securesocial.controllers.Registration.startSignUp
+POST    /signup                     securesocial.controllers.Registration.handleStartSignUp
+GET     /signup/:token              securesocial.controllers.Registration.signUp(token)
+POST    /signup/:token              securesocial.controllers.Registration.handleSignUp(token)
+GET     /reset                      securesocial.controllers.Registration.startResetPassword
+POST    /reset                      securesocial.controllers.Registration.handleStartResetPassword
+GET     /reset/:token               securesocial.controllers.Registration.resetPassword(token)
+POST    /reset/:token               securesocial.controllers.Registration.handleResetPassword(token)
+GET     /password                   securesocial.controllers.PasswordChange.page
+POST    /password                   securesocial.controllers.PasswordChange.handlePasswordChange
+
+
+# Providers entry points
+GET     /authenticate/:provider     securesocial.controllers.ProviderController.authenticate(provider)
+POST    /authenticate/:provider     securesocial.controllers.ProviderController.authenticateByPost(provider)
+GET     /not-authorized             securesocial.controllers.ProviderController.notAuthorized

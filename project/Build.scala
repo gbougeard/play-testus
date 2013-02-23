@@ -1,5 +1,6 @@
 import sbt._
 import play.Project._
+import sbt.Keys._
 
 object ApplicationBuild extends Build {
 
@@ -30,6 +31,8 @@ object ApplicationBuild extends Build {
     , "com.yammer.metrics" % "metrics-scala_2.9.1" % "2.1.5"
     , "com.yammer.metrics" % "metrics-graphite" % "2.1.5"
 
+  , "securesocial" %% "securesocial" % "master-SNAPSHOT"
+
     , "org.webjars" % "webjars-play" % "2.1-RC1"
     //    , "org.webjars" % "requirejs" % "2.1.1"
     , "org.webjars" % "bootstrap" % "2.3.0"
@@ -47,6 +50,7 @@ object ApplicationBuild extends Build {
 
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
+    resolvers += Resolver.url("sbt-plugin-snapshots", new URL("http://repo.scala-sbt.org/scalasbt/sbt-plugin-snapshots/"))(Resolver.ivyStylePatterns)
     // Add your own project settings here
 //  ).dependsOn(RootProject( uri("git://github.com/gbougeard/play-slick.git") ))
   ).dependsOn(RootProject( uri("git://github.com/freekh/play-slick.git") ))
